@@ -1,0 +1,33 @@
+<h1 class="align-center">Hero/Villain Team Formation</h1>
+<mat-grid-list cols="2" rowHeight="100px">
+    <mat-grid-tile  [colspan]="1" [rowspan]="1">
+        <mat-form-field>
+            <mat-select [formControl]="heroServerSideCtrl" placeholder="Search for Hero..." [multiple]="true" (selectionChange)="cbHeroChanged()">
+            <mat-option>
+                <ngx-mat-select-search [formControl]="queryHero"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let hero of fetchedHeros" [value]="hero">
+                {{hero.heroName}}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <button mat-raised-button (click)="onClickCompare()" class="btn-margin">Compare</button>
+        <button mat-raised-button (click)="onClickReset()" class="btn-margin">Reset</button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+    <app-radialchart *ngIf="_showRadialChart" [heroIds]="heroIds"></app-radialchart>
+
+    <div *ngIf="_showRadialChart" class="align-center">
+        <h2 class="align-center">Click below Hero/Villan to add in your favourite team member</h2>
+        <br>
+        <button mat-raised-button  *ngFor="let hero of heroServerSideCtrl?.value" color="accent" (click)="addToFavourite(hero.heroName)" class="btn-margin">{{hero.heroName}}</button>
+    </div>
+
+    <div class="align-center" *ngIf="_showFavouriteTeamMembers">
+        <h2 class="align-center">Favourite team members</h2>
+        <br>
+        <button mat-raised-button  *ngFor="let hero of favouriteHero" color="primary" class="btn-margin">{{hero}}</button>
+    </div>
